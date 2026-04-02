@@ -1,38 +1,45 @@
-let data = JSON.parse(localStorage.getItem('meevo_v8')||'[]')
+let data = JSON.parse(localStorage.getItem('meevo_real')||'[]')
 
 function salvar(){
-let evo = {
-paciente: paciente.value,
-sexo: sexo.value,
-consciencia: consciencia.value,
-ar: ar.value,
-acv: acv.value,
-abd: abd.value,
-ext: ext.value,
-conduta: conduta.value,
-data: new Date().toLocaleString()
+let e={
+paciente:paciente.value,
+sexo:sexo.value,
+geral:geral.value,
+an:an.value,
+ar:ar.value,
+acv:acv.value,
+abd:abd.value,
+ext:ext.value,
+conduta:conduta.value,
+data:new Date().toLocaleString()
 }
-data.unshift(evo)
-localStorage.setItem('meevo_v8', JSON.stringify(data))
+data.unshift(e)
+localStorage.setItem('meevo_real',JSON.stringify(data))
 render()
 }
 
 function duplicar(){
-if(data.length==0) return
+if(!data.length)return
 let e=data[0]
 paciente.value=e.paciente
 conduta.value=e.conduta
 }
 
 function exportar(){
-let texto=""
-data.forEach(e=>{
-texto+=e.paciente+"\n"+e.conduta+"\n\n"
-})
-let blob=new Blob([texto])
+let txt=data.map(e=>`${e.paciente}
+${e.geral}
+${e.an}
+${e.ar}
+${e.acv}
+${e.abd}
+${e.ext}
+Conduta: ${e.conduta}
+`).join("
+")
+let blob=new Blob([txt])
 let a=document.createElement('a')
 a.href=URL.createObjectURL(blob)
-a.download="meevo.txt"
+a.download="evolucao.txt"
 a.click()
 }
 
