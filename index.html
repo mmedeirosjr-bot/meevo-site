@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEEVO V8</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>MEEVO</h1>
+<p>Versão funcional clínica</p>
+
+<label>Paciente</label>
+<input id="paciente">
+
+<label>Sexo</label>
+<select id="sexo">
+<option value="M">Masculino</option>
+<option value="F">Feminino</option>
+</select>
+
+<h3>GERAL</h3>
+<select id="geral">
+<option>EGB, hidratado, normocorado, acianótico, anictérico, afebril</option>
+<option>EG regular</option>
+<option>EG ruim</option>
+</select>
+
+<h3>AN</h3>
+<select id="an">
+<option>Vigil, Glasgow 15</option>
+<option>Sonolento</option>
+<option>Coma</option>
+<option>Sedado</option>
+</select>
+
+<h3>AR</h3>
+<select id="ar">
+<option>MV presente bilateral sem RA</option>
+<option>Sibilos difusos</option>
+<option>Estertores bibasais</option>
+</select>
+
+<h3>ACV</h3>
+<select id="acv">
+<option>RCR 2T s/s, normoperfundido</option>
+<option>RCI</option>
+<option>Sopro sistólico</option>
+</select>
+
+<h3>ABD</h3>
+<select id="abd">
+<option>Plano, flácido, indolor, RHA presentes</option>
+<option>Doloroso</option>
+</select>
+
+<h3>EXT</h3>
+<select id="ext">
+<option>Sem edema, perfundido</option>
+<option>Edema +/4+</option>
+</select>
+
+<h3>Conduta</h3>
+<textarea id="conduta"></textarea>
+
+<br><br>
+<button onclick="salvar()">Salvar</button>
+<button onclick="duplicar()">Duplicar</button>
+<button onclick="exportar()">Exportar</button>
+
+<h3>Histórico</h3>
+<div id="lista"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
