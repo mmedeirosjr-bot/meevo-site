@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MEEVO V8</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>MEEVO</h1>
+
+<input id="paciente" placeholder="Paciente">
+<select id="sexo">
+<option value="M">Masculino</option>
+<option value="F">Feminino</option>
+</select>
+
+<h3>Exame físico</h3>
+
+<select id="consciencia">
+<option>Vigil</option>
+<option>Sonolento</option>
+<option>Coma</option>
+</select>
+
+<select id="ar">
+<option>MV presente sem RA</option>
+<option>Sibilos</option>
+</select>
+
+<select id="acv">
+<option>RCR 2T s/s</option>
+<option>RCI</option>
+</select>
+
+<select id="abd">
+<option>Normal</option>
+<option>Alterado</option>
+</select>
+
+<select id="ext">
+<option>Normal</option>
+<option>Edema +/4+</option>
+</select>
+
+<textarea id="conduta" placeholder="Conduta"></textarea>
+
+<br><br>
+<button onclick="salvar()">Salvar</button>
+<button onclick="duplicar()">Duplicar</button>
+<button onclick="exportar()">Exportar</button>
+
+<h3>Histórico</h3>
+<div id="lista"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
