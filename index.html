@@ -1,348 +1,62 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MEEVO</title>
-  <meta name="theme-color" content="#0f172a" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MEEVO</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="bg-orb orb-1"></div>
-  <div class="bg-orb orb-2"></div>
+<h1>MEEVO V7</h1>
 
-  <div class="app-shell">
-    <header class="topbar">
-      <div class="brand-wrap">
-        <span class="brand-badge">MEEVO</span>
-        <div>
-          <h1>MEEVO</h1>
-          <p>Sua prática médica, organizada e sob controle</p>
-        </div>
-      </div>
-      <div class="top-actions">
-        <button class="ghost-btn" id="clearDataBtn">Limpar dados</button>
-      </div>
-    </header>
+<h3>Paciente</h3>
+<input id="paciente" placeholder="Nome">
 
-    <main class="container">
-      <section id="view-dashboard" class="view active">
-        <article class="hero-card premium">
-          <div class="hero-copy">
-            <span class="eyebrow">Painel principal</span>
-            <h2>Organize seu plantão com mais velocidade</h2>
-            <p>Fluxo clínico, exportação em PDF e módulo inicial de prescrição.</p>
-            <div class="hero-actions">
-              <button class="primary-btn large" data-view-target="view-clinico">+ Nova evolução</button>
-              <button class="secondary-btn large" data-view-target="view-prescricao">Prescrição</button>
-            </div>
-          </div>
-          <div class="hero-summary">
-            <div class="mini-stat">
-              <span>Total previsto</span>
-              <strong id="heroTotal">R$ 0,00</strong>
-            </div>
-            <div class="mini-stat">
-              <span>Pacientes salvos</span>
-              <strong id="heroPacientes">0</strong>
-            </div>
-          </div>
-        </article>
+<h3>Setor</h3>
+<select id="setor">
+<option>UTI</option>
+<option>Enfermaria</option>
+</select>
 
-        <div class="stats-grid">
-          <article class="stat-card">
-            <span class="stat-label">Hospitais</span>
-            <strong id="statHospitais">0</strong>
-          </article>
-          <article class="stat-card">
-            <span class="stat-label">Pacientes</span>
-            <strong id="statPacientes">0</strong>
-          </article>
-          <article class="stat-card">
-            <span class="stat-label">Plantões</span>
-            <strong id="statPlantoes">0</strong>
-          </article>
-          <article class="stat-card highlight">
-            <span class="stat-label">Recebido</span>
-            <strong id="statRecebido">R$ 0,00</strong>
-          </article>
-        </div>
+<h3>GERAL</h3>
+<select id="geral">
+<option>Normal</option>
+<option>EG Regular</option>
+<option>EG Ruim</option>
+</select>
 
-        <div class="quick-grid">
-          <button class="quick-card" data-view-target="view-clinico">
-            <span>🏥</span>
-            <strong>Clínico</strong>
-            <small>Evolução com exportação</small>
-          </button>
-          <button class="quick-card" data-view-target="view-prescricao">
-            <span>💊</span>
-            <strong>Prescrição</strong>
-            <small>Categorização inicial de medicações</small>
-          </button>
-          <button class="quick-card" data-view-target="view-plantoes">
-            <span>📅</span>
-            <strong>Plantões</strong>
-            <small>Agenda e resumo financeiro</small>
-          </button>
-        </div>
-      </section>
+<h3>AN</h3>
+<select id="an">
+<option>Vigil</option>
+<option>Sonolento</option>
+<option>Coma</option>
+</select>
 
-      <section id="view-clinico" class="view">
-        <div class="section-head">
-          <div>
-            <h2>Clínico</h2>
-            <p>Fluxo prático para contexto, evolução e exportação.</p>
-          </div>
-          <div class="actions-row compact-row">
-            <button class="secondary-btn" id="loadTemplateBtn">Usar modelo base</button>
-            <button class="secondary-btn" id="loadExamTemplateBtn">Modelo exame físico</button>
-          </div>
-        </div>
+<h3>AR</h3>
+<select id="ar">
+<option>MV presente sem RA</option>
+<option>Sibilos</option>
+<option>Estertores</option>
+</select>
 
-        <div class="sticky-context" id="contextBar">Sem contexto selecionado.</div>
+<h3>ACV</h3>
+<select id="acv">
+<option>RCR 2T s/s</option>
+<option>RCI</option>
+<option>Sopro</option>
+</select>
 
-        <div class="grid two">
-          <article class="card">
-            <h3>Configuração clínica</h3>
-            <label class="label">Novo hospital</label>
-            <div class="inline-controls">
-              <input id="hospitalNomeInput" class="input" placeholder="Ex.: Hospital Intermédica ABC" />
-              <select id="hospitalSetorInput" class="input">
-                <option value="UTI">UTI</option>
-                <option value="Enfermaria">Enfermaria</option>
-                <option value="APS">APS</option>
-                <option value="Ambulatório">Ambulatório</option>
-              </select>
-            </div>
-            <button class="primary-btn" id="addHospitalBtn">Salvar hospital</button>
+<h3>Conduta</h3>
+<textarea id="conduta"></textarea>
 
-            <label class="label">Hospital salvo</label>
-            <select id="hospitalListSelect" class="input"></select>
+<br><br>
+<button onclick="salvar()">Salvar evolução</button>
+<button onclick="duplicar()">Duplicar</button>
+<button onclick="exportar()">Exportar PDF</button>
 
-            <label class="label">Paciente</label>
-            <select id="evolucaoPacienteSelect" class="input"></select>
+<h3>Histórico</h3>
+<div id="lista"></div>
 
-            <label class="label">Setor</label>
-            <select id="evolucaoSetorSelect" class="input">
-              <option value="UTI">UTI</option>
-              <option value="Enfermaria">Enfermaria</option>
-              <option value="APS">APS</option>
-              <option value="Ambulatório">Ambulatório</option>
-            </select>
-
-            <div class="list-block">
-              <h4>Evoluções salvas</h4>
-              <select id="savedEvolutionSelect" class="input"></select>
-              <div class="actions-row">
-                <button class="secondary-btn" id="loadSavedEvolutionBtn">Abrir salva</button>
-                <button class="secondary-btn" id="newEvolutionBtn">Nova evolução</button>
-              </div>
-            </div>
-          </article>
-
-          <article class="card">
-            <h3>Nova evolução</h3>
-
-            <label class="label">H.D.</label>
-            <textarea id="hdInput" class="input textarea compact" placeholder="Diagnóstico principal"></textarea>
-
-            <label class="label">H.M.A.</label>
-            <textarea id="hmaInput" class="input textarea" placeholder="Resumo objetivo da história atual"></textarea>
-
-            <label class="label">Comorbidades</label>
-            <textarea id="comorbidadesInput" class="input textarea compact" placeholder="HAS, DM, DAC..."></textarea>
-
-            <div class="section-subcard">
-              <div class="section-subhead dark">
-                <h4>Exame físico</h4>
-                <select id="examModelSelect" class="input small-input">
-                  <option value="geral">Modelo geral</option>
-                  <option value="uti">Modelo UTI</option>
-                  <option value="enfermaria">Modelo enfermaria</option>
-                </select>
-              </div>
-
-              <div class="grid-inline">
-                <div>
-                  <label class="label">AN</label>
-                  <textarea id="anInput" class="input textarea compact-mini" placeholder="Estado geral"></textarea>
-                </div>
-                <div>
-                  <label class="label">AR</label>
-                  <textarea id="arInput" class="input textarea compact-mini" placeholder="Respiratório"></textarea>
-                </div>
-              </div>
-
-              <div class="grid-inline">
-                <div>
-                  <label class="label">ACV</label>
-                  <textarea id="acvInput" class="input textarea compact-mini" placeholder="Cardiovascular"></textarea>
-                </div>
-                <div>
-                  <label class="label">ABD</label>
-                  <textarea id="abdInput" class="input textarea compact-mini" placeholder="Abdome"></textarea>
-                </div>
-              </div>
-
-              <label class="label">EXT</label>
-              <textarea id="extInput" class="input textarea compact-mini" placeholder="Extremidades"></textarea>
-            </div>
-
-            <div class="grid-inline">
-              <div>
-                <label class="label">Impressão clínica</label>
-                <textarea id="impressaoInput" class="input textarea" placeholder="Síntese do raciocínio clínico"></textarea>
-              </div>
-              <div>
-                <label class="label">Conduta</label>
-                <textarea id="condutaInput" class="input textarea" placeholder="Plano terapêutico"></textarea>
-              </div>
-            </div>
-
-            <div class="actions-row">
-              <button class="primary-btn" id="saveEvolucaoBtn">Salvar evolução</button>
-              <button class="secondary-btn" id="copyEvolucaoBtn">Copiar texto</button>
-              <button class="secondary-btn" id="exportPdfBtn">Exportar PDF salvo</button>
-              <button class="ghost-btn dark-ghost" id="clearEvolucaoBtn">Limpar campos</button>
-            </div>
-          </article>
-        </div>
-
-        <article class="card">
-          <div class="section-subhead">
-            <h3>Prévia da evolução selecionada</h3>
-            <small id="savedEvolutionMeta">Nenhuma evolução selecionada.</small>
-          </div>
-          <div id="savedEvolutionPreview" class="preview-box empty-output">Selecione uma evolução salva para visualizar ou editar.</div>
-        </article>
-      </section>
-
-      <section id="view-prescricao" class="view">
-        <div class="section-head">
-          <div>
-            <h2>Prescrição</h2>
-            <p>Primeiro passo do módulo: colar texto, categorizar e revisar.</p>
-          </div>
-        </div>
-
-        <div class="grid two">
-          <article class="card">
-            <h3>Texto da prescrição</h3>
-            <label class="label">Cole aqui o texto extraído do PDF</label>
-            <textarea id="prescricaoTextoInput" class="input textarea tall" placeholder="Ex.: Losartana 50mg 12/12h&#10;Anlodipino 5mg pela manhã&#10;Metformina 850mg 8/8h&#10;Furosemida 40mg/dia"></textarea>
-
-            <div class="actions-row">
-              <button class="primary-btn" id="analisarPrescricaoBtn">Analisar</button>
-              <button class="secondary-btn" id="copiarPrescricaoBtn">Copiar resultado</button>
-            </div>
-          </article>
-
-          <article class="card">
-            <h3>Formato padrão</h3>
-            <label class="label">Saída editável</label>
-            <textarea id="prescricaoFormatoInput" class="input textarea" placeholder="Anti-hipertensivos: Losartana 50mg 12/12h; Anlodipino 5mg/dia"></textarea>
-            <small class="help-text">Você pode editar livremente antes de copiar.</small>
-          </article>
-        </div>
-
-        <article class="card">
-          <h3>Categorização inicial</h3>
-          <div id="categoriasPrescricao" class="prescription-output empty-output">Nenhuma análise realizada ainda.</div>
-        </article>
-      </section>
-
-      <section id="view-pacientes" class="view">
-        <div class="section-head">
-          <div>
-            <h2>Pacientes</h2>
-            <p>Cadastro rápido para reaproveitar na rotina clínica.</p>
-          </div>
-        </div>
-
-        <div class="grid two">
-          <article class="card">
-            <h3>Novo paciente</h3>
-            <label class="label">Nome do paciente</label>
-            <input id="pacienteNomeInput" class="input" placeholder="Ex.: Maria de Souza" />
-            <button class="primary-btn" id="addPacienteBtn">Salvar paciente</button>
-          </article>
-
-          <article class="card">
-            <h3>Pacientes salvos</h3>
-            <ul id="pacienteList" class="simple-list empty-list">
-              <li>Nenhum paciente cadastrado.</li>
-            </ul>
-          </article>
-        </div>
-      </section>
-
-      <section id="view-plantoes" class="view">
-        <div class="section-head">
-          <div>
-            <h2>Plantões</h2>
-            <p>Agenda simples com status e visão financeira.</p>
-          </div>
-        </div>
-
-        <div class="grid two">
-          <article class="card">
-            <h3>Novo plantão</h3>
-            <label class="label">Data</label>
-            <input id="plantaoDataInput" type="date" class="input" />
-
-            <label class="label">Local</label>
-            <input id="plantaoLocalInput" class="input" placeholder="Ex.: UTI Hospital X" />
-
-            <label class="label">Valor (R$)</label>
-            <input id="plantaoValorInput" type="number" step="0.01" class="input" placeholder="1500" />
-
-            <label class="label">Status</label>
-            <select id="plantaoStatusInput" class="input">
-              <option value="Previsto">Previsto</option>
-              <option value="Realizado">Realizado</option>
-              <option value="Recebido">Recebido</option>
-            </select>
-
-            <button class="primary-btn" id="addPlantaoBtn">Salvar plantão</button>
-          </article>
-
-          <article class="card">
-            <h3>Resumo financeiro</h3>
-            <div class="summary-grid">
-              <div>
-                <span>Previsto</span>
-                <strong id="financePrevisto">R$ 0,00</strong>
-              </div>
-              <div>
-                <span>Recebido</span>
-                <strong id="financeRecebido">R$ 0,00</strong>
-              </div>
-              <div>
-                <span>Pendente</span>
-                <strong id="financePendente">R$ 0,00</strong>
-              </div>
-            </div>
-          </article>
-        </div>
-
-        <article class="card">
-          <h3>Registros</h3>
-          <ul id="plantaoList" class="record-list empty-list">
-            <li>Nenhum plantão salvo.</li>
-          </ul>
-        </article>
-      </section>
-    </main>
-
-    <nav class="bottom-nav">
-      <button class="nav-btn active" data-view-target="view-dashboard">Home</button>
-      <button class="nav-btn" data-view-target="view-clinico">Clínico</button>
-      <button class="nav-btn" data-view-target="view-prescricao">Prescrição</button>
-      <button class="nav-btn" data-view-target="view-pacientes">Pacientes</button>
-      <button class="nav-btn" data-view-target="view-plantoes">Plantões</button>
-    </nav>
-  </div>
-
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
