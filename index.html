@@ -1,77 +1,428 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MEEVO V8</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MEEVO V9</title>
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">M</div>
+      <div>
+        <h1>MEEVO</h1>
+        <p>Sua prática médica, organizada e sob controle</p>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button id="newEvolutionBtn" class="btn btn-secondary">Nova evolução</button>
+      <button id="clearAllBtn" class="btn btn-ghost">Limpar dados</button>
+    </div>
+  </header>
 
-<h1>MEEVO</h1>
-<p>Versão funcional clínica</p>
+  <main class="wrap">
+    <section class="hero card">
+      <div>
+        <span class="eyebrow">V9</span>
+        <h2>Exame físico segmentado</h2>
+        <p>Cada informação é escolhida separadamente e o texto final é montado automaticamente.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span>Evoluções</span>
+          <strong id="totalEvolucoes">0</strong>
+        </div>
+        <div class="stat">
+          <span>Pacientes</span>
+          <strong id="totalPacientes">0</strong>
+        </div>
+      </div>
+    </section>
 
-<label>Paciente</label>
-<input id="paciente">
+    <section class="grid two">
+      <article class="card">
+        <div class="section-head">
+          <h3>Contexto clínico</h3>
+          <span class="tag" id="currentModelTag">Modelo: Geral</span>
+        </div>
 
-<label>Sexo</label>
-<select id="sexo">
-<option value="M">Masculino</option>
-<option value="F">Feminino</option>
-</select>
+        <div class="grid two compact">
+          <div>
+            <label>Hospital</label>
+            <input id="hospitalInput" placeholder="Ex.: Hospital Intermédica ABC" />
+          </div>
+          <div>
+            <label>Setor</label>
+            <select id="setorInput">
+              <option value="UTI">UTI</option>
+              <option value="Enfermaria">Enfermaria</option>
+              <option value="APS">APS</option>
+              <option value="Ambulatório">Ambulatório</option>
+            </select>
+          </div>
+          <div>
+            <label>Paciente</label>
+            <input id="pacienteInput" placeholder="Nome do paciente" />
+          </div>
+          <div>
+            <label>Sexo</label>
+            <select id="sexoInput">
+              <option value="masculino">Masculino</option>
+              <option value="feminino">Feminino</option>
+            </select>
+          </div>
+        </div>
 
-<h3>GERAL</h3>
-<select id="geral">
-<option>EGB, hidratado, normocorado, acianótico, anictérico, afebril</option>
-<option>EG regular</option>
-<option>EG ruim</option>
-</select>
+        <div class="context-bar" id="contextBar">Sem contexto selecionado.</div>
 
-<h3>AN</h3>
-<select id="an">
-<option>Vigil, Glasgow 15</option>
-<option>Sonolento</option>
-<option>Coma</option>
-<option>Sedado</option>
-</select>
+        <label>H.D.</label>
+        <textarea id="hdInput" rows="2" placeholder="Diagnóstico principal"></textarea>
 
-<h3>AR</h3>
-<select id="ar">
-<option>MV presente bilateral sem RA</option>
-<option>Sibilos difusos</option>
-<option>Estertores bibasais</option>
-</select>
+        <label>H.M.A.</label>
+        <textarea id="hmaInput" rows="4" placeholder="Resumo objetivo da história atual"></textarea>
 
-<h3>ACV</h3>
-<select id="acv">
-<option>RCR 2T s/s, normoperfundido</option>
-<option>RCI</option>
-<option>Sopro sistólico</option>
-</select>
+        <label>Comorbidades</label>
+        <textarea id="comorbidadesInput" rows="2" placeholder="HAS, DM, DAC..."></textarea>
 
-<h3>ABD</h3>
-<select id="abd">
-<option>Plano, flácido, indolor, RHA presentes</option>
-<option>Doloroso</option>
-</select>
+        <label>Impressão clínica</label>
+        <textarea id="impressaoInput" rows="3" placeholder="Síntese do raciocínio clínico"></textarea>
 
-<h3>EXT</h3>
-<select id="ext">
-<option>Sem edema, perfundido</option>
-<option>Edema +/4+</option>
-</select>
+        <label>Conduta</label>
+        <textarea id="condutaInput" rows="4" placeholder="Plano terapêutico"></textarea>
 
-<h3>Conduta</h3>
-<textarea id="conduta"></textarea>
+        <div class="actions">
+          <button id="saveBtn" class="btn btn-primary">Salvar evolução</button>
+          <button id="copyBtn" class="btn btn-secondary">Copiar texto</button>
+          <button id="duplicateBtn" class="btn btn-secondary">Duplicar última</button>
+          <button id="exportBtn" class="btn btn-secondary">Baixar exportação</button>
+        </div>
+      </article>
 
-<br><br>
-<button onclick="salvar()">Salvar</button>
-<button onclick="duplicar()">Duplicar</button>
-<button onclick="exportar()">Exportar</button>
+      <article class="card">
+        <div class="section-head">
+          <h3>Exame físico</h3>
+          <div class="inline-tools">
+            <select id="examModelSelect" class="small">
+              <option value="geral">Modelo geral</option>
+              <option value="uti">Modelo UTI</option>
+              <option value="enfermaria">Modelo enfermaria</option>
+            </select>
+            <button id="normalExamBtn" class="btn btn-secondary small-btn">Normal</button>
+          </div>
+        </div>
 
-<h3>Histórico</h3>
-<div id="lista"></div>
+        <div class="exam-grid">
+          <div class="subcard">
+            <h4>GERAL</h4>
+            <label>Estado geral</label>
+            <select id="geralEstadoSelect">
+              <option value="">Selecionar</option>
+              <option value="EGB">EGB</option>
+              <option value="EG regular">EG regular</option>
+              <option value="EG ruim">EG ruim</option>
+              <option value="EG decaído">EG decaído</option>
+              <option value="EG grave">EG grave</option>
+            </select>
 
-<script src="app.js"></script>
+            <label>Status de hidratação</label>
+            <select id="geralHidratacaoSelect">
+              <option value="">Selecionar</option>
+              <option value="hidratado">Hidratado</option>
+              <option value="desidratado +/4+">Desidratado +/4+</option>
+              <option value="desidratado ++/4+">Desidratado ++/4+</option>
+            </select>
+
+            <label>Coloração</label>
+            <select id="geralCoradoSelect">
+              <option value="">Selecionar</option>
+              <option value="normocorado">Normocorado</option>
+              <option value="hipocorado +/4+">Hipocorado +/4+</option>
+              <option value="hipocorado ++/4+">Hipocorado ++/4+</option>
+            </select>
+
+            <label>Cianose</label>
+            <select id="geralCianoseSelect">
+              <option value="">Selecionar</option>
+              <option value="acianótico">Acianótico</option>
+              <option value="cianótico +/4+">Cianótico +/4+</option>
+            </select>
+
+            <label>Icterícia</label>
+            <select id="geralIctericiaSelect">
+              <option value="">Selecionar</option>
+              <option value="anictérico">Anictérico</option>
+              <option value="ictérico +/4+">Ictérico +/4+</option>
+            </select>
+
+            <label>Temperatura ao toque</label>
+            <select id="geralFebreSelect">
+              <option value="">Selecionar</option>
+              <option value="afebril ao toque">Afebril ao toque</option>
+              <option value="febril ao toque">Febril ao toque</option>
+            </select>
+
+            <label>Texto livre</label>
+            <textarea id="geralLivreInput" rows="2" placeholder="Complementar, se necessário"></textarea>
+          </div>
+
+          <div class="subcard">
+            <h4>AN</h4>
+            <label>Nível de consciência</label>
+            <select id="anConscienciaSelect">
+              <option value="">Selecionar</option>
+              <option value="vigil">Vigil</option>
+              <option value="sonolento">Sonolento</option>
+              <option value="obnubilado">Obnubilado</option>
+              <option value="em coma">Em coma</option>
+              <option value="sedado">Sedado</option>
+            </select>
+
+            <label>ECG / Glasgow</label>
+            <select id="anGlasgowSelect">
+              <option value="">Sem informar</option>
+            </select>
+
+            <label>Pupilas</label>
+            <select id="anPupilasSelect">
+              <option value="">Selecionar</option>
+              <option value="isocóricas fotorreagentes">Isocóricas fotorreagentes</option>
+              <option value="mióticas fotorreagentes">Mióticas fotorreagentes</option>
+              <option value="midriáticas fotorreagentes">Midriáticas fotorreagentes</option>
+              <option value="não fotorreagentes">Não fotorreagentes</option>
+            </select>
+
+            <label>Déficit motor</label>
+            <select id="anDeficitSelect">
+              <option value="">Selecionar</option>
+              <option value="déficit motor ausente">Ausente</option>
+              <option value="déficit motor presente">Presente</option>
+            </select>
+
+            <label>Descrição do déficit / NIHSS</label>
+            <input id="anDeficitLivreInput" placeholder="Descrever déficit ou NIHSS" />
+
+            <label>Sinais meníngeos</label>
+            <select id="anMeningeosSelect">
+              <option value="">Selecionar</option>
+              <option value="sinais meníngeos ausentes">Ausentes</option>
+              <option value="sinais meníngeos presentes">Presentes</option>
+            </select>
+
+            <label>Quais sinais?</label>
+            <input id="anMeningeosLivreInput" placeholder="Rigidez de nuca, Kernig..." />
+          </div>
+
+          <div class="subcard">
+            <h4>AR</h4>
+            <label>MV</label>
+            <select id="arMvSelect">
+              <option value="">Selecionar</option>
+              <option value="MV presente bilateralmente">MV presente</option>
+              <option value="MV reduzido">MV reduzido</option>
+              <option value="MV abolido">MV abolido</option>
+            </select>
+
+            <label>Topografia</label>
+            <select id="arTopografiaSelect">
+              <option value="">Sem especificar</option>
+              <option value="em AHT">AHT</option>
+              <option value="em HTD">HTD</option>
+              <option value="em HTE">HTE</option>
+              <option value="em bases">Em bases</option>
+              <option value="bibasal">Bibasal</option>
+            </select>
+
+            <label>Ruídos adventícios</label>
+            <select id="arRuidosSelect">
+              <option value="">Selecionar</option>
+              <option value="sem ruídos adventícios">Sem ruídos adventícios</option>
+              <option value="com sibilos">Sibilos</option>
+              <option value="com roncos">Roncos</option>
+              <option value="com estertores grossos">Estertores grossos</option>
+              <option value="com estertores finos">Estertores finos</option>
+            </select>
+
+            <label>Distribuição</label>
+            <select id="arDistribuicaoSelect">
+              <option value="">Sem especificar</option>
+              <option value="esparsos">Esparsos</option>
+              <option value="difusos">Difusos</option>
+              <option value="em base">Em base</option>
+              <option value="bibasais">Bibasais</option>
+            </select>
+
+            <label>Texto livre</label>
+            <textarea id="arLivreInput" rows="2" placeholder="Complementar, se necessário"></textarea>
+          </div>
+
+          <div class="subcard">
+            <h4>ACV</h4>
+            <label>Ritmo</label>
+            <select id="acvRitmoSelect">
+              <option value="">Selecionar</option>
+              <option value="RCR">RCR</option>
+              <option value="RCI">RCI</option>
+            </select>
+
+            <label>Bulhas</label>
+            <select id="acvBulhasSelect">
+              <option value="">Selecionar</option>
+              <option value="2T">2T</option>
+              <option value="3T">3T</option>
+            </select>
+
+            <label>Sopros</label>
+            <select id="acvSoproSelect">
+              <option value="">Selecionar</option>
+              <option value="s/s">Sem sopros</option>
+              <option value="sopro audível">Sopro audível</option>
+            </select>
+
+            <label>Foco</label>
+            <select id="acvFocoSelect">
+              <option value="">Sem especificar</option>
+              <option value="em foco aórtico">Aórtico</option>
+              <option value="em foco aórtico acessório">Aórtico acessório</option>
+              <option value="em foco pulmonar">Pulmonar</option>
+              <option value="em foco mitral">Mitral</option>
+              <option value="em foco tricúspide">Tricúspide</option>
+              <option value="pancardíaco">Pancardíaco</option>
+            </select>
+
+            <label>Tipo do sopro</label>
+            <select id="acvTipoSoproSelect">
+              <option value="">Sem especificar</option>
+              <option value="sistólico">Sistólico</option>
+              <option value="diastólico">Diastólico</option>
+            </select>
+
+            <label>Irradiação</label>
+            <input id="acvIrradiacaoInput" placeholder="Descrever irradiação" />
+
+            <label>Intensidade</label>
+            <select id="acvIntensidadeSelect">
+              <option value="">Sem especificar</option>
+              <option value="+/6+">+/6+</option>
+              <option value="++/6+">++/6+</option>
+              <option value="+++/6+">+++/6+</option>
+              <option value="++++/6+">++++/6+</option>
+            </select>
+
+            <label>Perfusão</label>
+            <select id="acvPerfusaoSelect">
+              <option value="">Selecionar</option>
+              <option value="normoperfundido">Normoperfundido</option>
+              <option value="TEC &gt; 4seg">TEC &gt; 4seg</option>
+            </select>
+
+            <label>Texto livre</label>
+            <textarea id="acvLivreInput" rows="2" placeholder="Complementar, se necessário"></textarea>
+          </div>
+
+          <div class="subcard">
+            <h4>ABD</h4>
+            <label>Padrão rápido</label>
+            <select id="abdPadraoSelect">
+              <option value="">Selecionar</option>
+              <option value="normal">Normal</option>
+              <option value="alterado">Alterado</option>
+            </select>
+
+            <label>Aspecto</label>
+            <input id="abdAspectoInput" placeholder="Plano, globoso, distendido..." />
+
+            <label>Palpação</label>
+            <input id="abdPalpacaoInput" placeholder="Flácido, doloroso, defesa..." />
+
+            <label>RHA</label>
+            <select id="abdRhaSelect">
+              <option value="">Selecionar</option>
+              <option value="RHA presentes">Presentes</option>
+              <option value="RHA reduzidos">Reduzidos</option>
+              <option value="RHA ausentes">Ausentes</option>
+            </select>
+
+            <label>Texto livre</label>
+            <textarea id="abdLivreInput" rows="2" placeholder="Complementar, se necessário"></textarea>
+          </div>
+
+          <div class="subcard">
+            <h4>EXT</h4>
+            <label>Padrão rápido</label>
+            <select id="extPadraoSelect">
+              <option value="">Selecionar</option>
+              <option value="normal">Normal</option>
+              <option value="alterado">Alterado</option>
+            </select>
+
+            <label>Edema</label>
+            <select id="extEdemaSelect">
+              <option value="">Selecionar</option>
+              <option value="sem edema">Ausente</option>
+              <option value="edema +/4+">+/4+</option>
+              <option value="edema ++/4+">++/4+</option>
+              <option value="edema +++/4+">+++/4+</option>
+              <option value="edema ++++/4+">++++/4+</option>
+            </select>
+
+            <label>Perfusão</label>
+            <select id="extPerfusaoSelect">
+              <option value="">Selecionar</option>
+              <option value="extremidades perfundidas">Perfundidas</option>
+              <option value="extremidades hipoperfundidas">Hipoperfundidas</option>
+            </select>
+
+            <label>Panturrilhas</label>
+            <select id="extPanturrilhasSelect">
+              <option value="">Selecionar</option>
+              <option value="panturrilhas livres">Livres</option>
+              <option value="panturrilhas dolorosas">Dolorosas</option>
+            </select>
+
+            <label>Texto livre</label>
+            <textarea id="extLivreInput" rows="2" placeholder="Complementar, se necessário"></textarea>
+          </div>
+        </div>
+
+        <div id="utiExtras" class="subcard hidden top-gap">
+          <h4>Campos opcionais de UTI</h4>
+          <div class="grid two compact">
+            <div>
+              <label>Renal / Metabólico</label>
+              <textarea id="renalInput" rows="3" placeholder="Diurese, balanço, função renal..."></textarea>
+            </div>
+            <div>
+              <label>Hematológico / Infeccioso</label>
+              <textarea id="hematoInput" rows="3" placeholder="Leucograma, foco infeccioso, antibiótico..."></textarea>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid two">
+      <article class="card">
+        <div class="section-head">
+          <h3>Prévia do exame físico</h3>
+          <button id="refreshPreviewBtn" class="btn btn-secondary small-btn">Atualizar</button>
+        </div>
+        <div id="examPreview" class="preview-box">Nenhuma prévia gerada ainda.</div>
+      </article>
+
+      <article class="card">
+        <div class="section-head">
+          <h3>Histórico por paciente</h3>
+          <select id="historyPatientFilter" class="small">
+            <option value="">Todos os pacientes</option>
+          </select>
+        </div>
+        <div id="historyList" class="history-list">Nenhuma evolução salva.</div>
+      </article>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
 </body>
 </html>
